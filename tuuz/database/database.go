@@ -48,9 +48,9 @@ func dsn_local() string {
 }
 
 func dsn() string {
-	dbname := "1"
-	dbuser := "1"
-	dbpass := "1"
+	dbname := "xrc20"
+	dbuser := "xrc20"
+	dbpass := "xrc20"
 	dbhost := "10.0.0.170"
 	conntype := "tcp"
 	dbport := "3306"
