@@ -23,43 +23,24 @@ func AddressController(route *gin.RouterGroup) {
 }
 
 func address_create(c *gin.Context) {
-	username, ok := Input.Post("wallet_name", c, true)
+	address, ok := Input.Post("address", c, true)
 	if !ok {
-		return
-	}
-	err := Vali.Length(username, 1, 12)
-	if err != nil {
-		RET.Fail(c, 400, err.Error(), "钱包长度不正确")
 		return
 	}
 	password, ok := Input.Post("password", c, false)
-	err = Vali.Length(password, 5, 19)
+	err := Vali.Length(password, 3, 19)
 	if err != nil {
-		RET.Fail(c, 400, err.Error(), "密码长度不正确")
-		return
-	}
-	pass_notify, ok := Input.Post("pass_notify", c, true)
-	if !ok {
-		return
-	}
-	if len(UserModel.Api_find_byUsername(username)) > 0 {
-		RET.Fail(c, 400, nil, "用户名已经被注册")
+		RET.Fail(c, 400, err.Error(), "密码长度不符合要求")
 		return
 	}
 	invite_code, ok := Input.Post("invite_code", c, false)
 	if !ok {
 		return
 	}
-	if len(UserModel.Api_find_byUsername(username)) > 0 {
-		RET.Fail(c, 400, nil, "用户名已经被注册")
-		return
-	}
-	invite_user, err := Base64.Decode(invite_code)
-	if err != nil {
-		RET.Fail(c, 406, nil, "邀请码不正确")
-		return
-	}
-	invite_data := UserModel.Api_find_byUsername(invite_user)
+	var ua UserAddressModel.Interface
+	ua.Db = tuuz.Db()
+	ua.Api_find_address(address)
+	invite_data := UserModel.Api_find_byUsername(invite_code)
 	if len(invite_data) < 1 {
 		RET.Fail(c, 404, nil, "邀请人不存在")
 		return
@@ -69,7 +50,7 @@ func address_create(c *gin.Context) {
 	db := tuuz.Db()
 	db.Begin()
 	usermodel.Db = db
-	uid := usermodel.Api_insert(invite_data["id"], username, Calc.Md5(password), pass_notify, nil, "cn", Base64.Encode([]byte(username)))
+	uid := usermodel.Api_insert(invite_data["id"], address, Calc.Md5(password), "", nil, "cn", address)
 	if uid != 0 {
 		token := Calc.GenerateToken()
 		if !TokenModel.Api_insert(uid, token, "app") {
@@ -88,8 +69,6 @@ func address_create(c *gin.Context) {
 		RET.Success(c, 0, nil, map[string]interface{}{
 			"uid":       uid,
 			"token":     token,
-			"words_sli": words_sli,
-			"words":     words,
 			"address":   address,
 		})
 	} else {
