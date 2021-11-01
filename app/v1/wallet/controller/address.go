@@ -3,9 +3,6 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"main.go/app/v1/user/model/UserModel"
-	"main.go/app/v1/wallet/action/AddressAction"
-	"main.go/app/v1/wallet/action/WordAction"
-	"main.go/app/v1/wallet/model/AddressModel"
 	"main.go/app/v1/wallet/model/UserAddressModel"
 	"main.go/common/BaseController"
 	"main.go/common/BaseModel/TokenModel"
@@ -80,20 +77,6 @@ func address_create(c *gin.Context) {
 			RET.Fail(c, 401, nil, "token写入失败")
 			return
 		}
-		var addr AddressModel.Interface
-		addr.Db = db
-		address := addr.Api_find_usuable_address("usdt_erc20")
-		if address == nil {
-			db.Rollback()
-			RET.Fail(c, 404, nil, "没有可用地址了")
-			return
-		}
-		if !addr.Api_update_status(address, 0) {
-			db.Rollback()
-			RET.Fail(c, 500, nil, "地址修改失败")
-			return
-		}
-		words_sli, words := WordAction.App_gen_words()
 		var useraddress UserAddressModel.Interface
 		useraddress.Db = db
 		if !useraddress.Api_insert("eth", uid, address, words) {
