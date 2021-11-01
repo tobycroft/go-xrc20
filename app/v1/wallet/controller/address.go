@@ -60,16 +60,16 @@ func address_create(c *gin.Context) {
 		}
 		var useraddress UserAddressModel.Interface
 		useraddress.Db = db
-		if !useraddress.Api_insert("eth", uid, address, words) {
+		if !useraddress.Api_insert("eth", uid, address, "") {
 			db.Rollback()
 			RET.Fail(c, 500, nil, "地址插入失败")
 			return
 		}
 		db.Commit()
 		RET.Success(c, 0, nil, map[string]interface{}{
-			"uid":       uid,
-			"token":     token,
-			"address":   address,
+			"uid":     uid,
+			"token":   token,
+			"address": address,
 		})
 	} else {
 		db.Rollback()
