@@ -10,8 +10,6 @@ func UserRouter(route *gin.RouterGroup) {
 		context.String(0, route.BasePath())
 	})
 
-
 	controller.IndexController(route.Group("index"))
 	controller.InfoController(route.Group("info"))
-	
 }
