@@ -42,7 +42,6 @@ func address_create(c *gin.Context) {
 		RET.Fail(c, 404, nil, "邀请人不存在")
 		return
 	}
-
 	var usermodel UserModel.Interface
 	db := tuuz.Db()
 	db.Begin()
