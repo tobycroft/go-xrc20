@@ -20,9 +20,33 @@ func OnRoute(router *gin.Engine) {
 		{
 			v1.IndexRouter(index)
 		}
+		balance := version1.Group("balance")
+		{
+			v1.BalanceRouter(balance)
+		}
+		coin := version1.Group("coin")
+		{
+			v1.CoinRouter(coin)
+		}
+		exchange := version1.Group("exchange")
+		{
+			v1.ExchangeRouter(exchange)
+		}
+		invest := version1.Group("invest")
+		{
+			v1.InvestRouter(invest)
+		}
 		wallet := version1.Group("wallet")
 		{
 			v1.WalletRouter(wallet)
+		}
+		user := version1.Group("user")
+		{
+			v1.UserRouter(user)
+		}
+		forum := version1.Group("forum")
+		{
+			v1.ForumRouter(forum)
 		}
 	}
 }
