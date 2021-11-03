@@ -34,7 +34,10 @@ func address_create(c *gin.Context) {
 	if !ok {
 		return
 	}
-
+	Type, ok := Input.PostIn("type", c, []string{"eth", "trc"})
+	if !ok {
+		return
+	}
 	var ua UserAddressModel.Interface
 	ua.Db = tuuz.Db()
 	ua.Api_find_address(address)
@@ -57,7 +60,7 @@ func address_create(c *gin.Context) {
 		}
 		var useraddress UserAddressModel.Interface
 		useraddress.Db = db
-		if !useraddress.Api_insert("eth", uid, address, "") {
+		if !useraddress.Api_insert(Type, uid, address, "") {
 			db.Rollback()
 			RET.Fail(c, 500, nil, "地址插入失败")
 			return
