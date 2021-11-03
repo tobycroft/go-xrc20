@@ -12,4 +12,5 @@ func UserRouter(route *gin.RouterGroup) {
 
 	controller.IndexController(route.Group("index"))
 	controller.InfoController(route.Group("info"))
+	controller.InviteController(route.Group("invite"))
 }
