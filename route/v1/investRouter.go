@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"main.go/app/v1/exchange/controller"
+	"main.go/app/v1/invest/controller"
 )
 
 func InvestRouter(route *gin.RouterGroup) {
@@ -10,6 +10,5 @@ func InvestRouter(route *gin.RouterGroup) {
 		context.String(0, route.BasePath())
 	})
 
-	controller.PaymentController(route.Group("payment"))
-	controller.RecordController(route.Group("record"))
+	controller.AddressController(route.Group("address"))
 }
