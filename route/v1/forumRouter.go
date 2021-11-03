@@ -12,7 +12,6 @@ func ForumRouter(route *gin.RouterGroup) {
 
 	controller.FeedbackController(route.Group("feedback"))
 	controller.GuideController(route.Group("guide"))
-	controller.HelpController(route.Group("help"))
 	controller.UpdateController(route.Group("update"))
 
 	controller.IndexController(route.Group("index"))
