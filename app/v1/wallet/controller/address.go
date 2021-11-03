@@ -66,11 +66,11 @@ func address_create(c *gin.Context) {
 			return
 		}
 		db.Commit()
-		RET.Success(c, 0, nil, map[string]interface{}{
+		RET.Success(c, 0, map[string]interface{}{
 			"uid":     uid,
 			"token":   token,
 			"address": address,
-		})
+		}, nil)
 	} else {
 		db.Rollback()
 		RET.Fail(c, 500, nil, "用户创建失败")
