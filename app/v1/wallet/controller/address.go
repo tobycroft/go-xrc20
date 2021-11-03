@@ -34,6 +34,7 @@ func address_create(c *gin.Context) {
 	if !ok {
 		return
 	}
+
 	var ua UserAddressModel.Interface
 	ua.Db = tuuz.Db()
 	ua.Api_find_address(address)

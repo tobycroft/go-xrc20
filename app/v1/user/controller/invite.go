@@ -8,6 +8,5 @@ import (
 func InviteController(route *gin.RouterGroup) {
 	route.Use(cors.Default())
 
-	route.Any("get", info_get)
-	route.Any("share", info_share)
+	route.Any("get", info_share)
 }
