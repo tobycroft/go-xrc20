@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_user"
+const table = "xrc_user"
 
 type Interface struct {
 	Db gorose.IOrm

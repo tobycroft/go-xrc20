@@ -8,7 +8,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_transfer_record"
+const table = "xrc_transfer_record"
 
 type Interface struct {
 	Db gorose.IOrm

@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_coin"
+const table = "xrc_coin"
 
 func Api_select() []gorose.Data {
 	db := tuuz.Db().Table(table)

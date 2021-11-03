@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_forum"
+const table = "xrc_forum"
 
 func Api_select() []gorose.Data {
 	db := tuuz.Db().Table(table)

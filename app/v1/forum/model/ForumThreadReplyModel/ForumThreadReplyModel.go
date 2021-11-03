@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_forum_thread_reply"
+const table = "xrc_forum_thread_reply"
 
 func Api_insert(tid, uid, content, img interface{}) bool {
 	db := tuuz.Db().Table(table)

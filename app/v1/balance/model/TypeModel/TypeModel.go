@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "fb_type"
+const table = "xrc_type"
 
 func Api_find(id interface{}) gorose.Data {
 	db := tuuz.Db().Table(table)
