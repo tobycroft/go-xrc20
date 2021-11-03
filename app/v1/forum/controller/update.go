@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"main.go/app/v1/forum/model/ForumThreadModel"
-	"main.go/app/v1/index/model/SystemParamModel"
+	"main.go/common/BaseModel/SystemParamModel"
 	"main.go/tuuz/Input"
 	"main.go/tuuz/RET"
 )

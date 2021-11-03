@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"main.go/app/v1/invest/controller"
+	"main.go/app/v1/exchange/controller"
 )
 
 func InvestRouter(route *gin.RouterGroup) {
@@ -10,9 +10,6 @@ func InvestRouter(route *gin.RouterGroup) {
 		context.String(0, route.BasePath())
 	})
 
-	controller.IndexController(route.Group("index"))
 	controller.PaymentController(route.Group("payment"))
-	controller.GroupController(route.Group("group"))
-	controller.InfoController(route.Group("info"))
 	controller.RecordController(route.Group("record"))
 }
