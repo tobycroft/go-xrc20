@@ -2,11 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"main.go/app/v1/invest/model/InvestOrderModel"
 	"main.go/app/v1/invest/model/InvestUserModel"
 	"main.go/common/BaseController"
+	"main.go/common/BaseModel/SystemParamModel"
 	"main.go/tuuz"
-	"main.go/tuuz/Calc"
 	"main.go/tuuz/RET"
 )
 
@@ -18,30 +17,12 @@ func InfoController(route *gin.RouterGroup) {
 }
 
 func info_get(c *gin.Context) {
-	uid := c.PostForm("uid")
-	var iu InvestUserModel.Interface
-	iu.Db = tuuz.Db()
-	investuser := iu.Api_find(uid)
-	var iv InvestOrderModel.Interface
-	iv.Db = tuuz.Db()
-	amount, _, _, _ := iv.Api_sum_byUid(uid)
-	if len(investuser) > 0 {
-		data := map[string]interface{}{
-			//锁仓:就是分红-锁仓额度
-			"lock": Calc.ToDecimal(investuser["freeze_amount"]),
-			//锁仓额度
-			"lock_amount": Calc.ToDecimal(investuser["lock_amount"]),
-			//待释放额度
-			"on_release": Calc.ToDecimal(investuser["on_release"]),
-			//分红权
-			"amount":       Calc.ToDecimal(investuser["amount"]),
-			"level_amount": Calc.ToDecimal(investuser["level_amount"]).Sub(Calc.ToDecimal(amount)),
-			"level":        Calc.ToDecimal(investuser["level"]),
-		}
-		RET.Success(c, 0, data, nil)
-	} else {
-		RET.Fail(c, 404, nil, "请先访问create接口创建一个账户")
-	}
+	invest_total_num := SystemParamModel.Api_find_val("invest_total_num")
+
+	RET.Success(c, 0, map[string]interface{}{
+		"total": invest_total_num,
+		"has":   0,
+	}, nil)
 }
 
 func info_create(c *gin.Context) {
