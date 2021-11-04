@@ -19,9 +19,9 @@ func Api_select() []gorose.Data {
 	}
 }
 
-func Api_find(generation interface{}) gorose.Data {
+func Api_find(id interface{}) gorose.Data {
 	db := tuuz.Db().Table(table)
-	db.Where("generation", "=", generation)
+	db.Where("id", "=", id)
 	ret, err := db.Find()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())

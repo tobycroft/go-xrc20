@@ -31,6 +31,22 @@ func Api_find(id interface{}) gorose.Data {
 	}
 }
 
+func Api_find_byTypeAndContract(Type, contract interface{}) gorose.Data {
+	db := tuuz.Db().Table(table)
+	where := map[string]interface{}{
+		"type":     Type,
+		"contract": contract,
+	}
+	db.Where(where)
+	ret, err := db.Find()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return nil
+	} else {
+		return ret
+	}
+}
+
 func Api_count() int64 {
 	db := tuuz.Db().Table(table)
 	ret, err := db.Count()

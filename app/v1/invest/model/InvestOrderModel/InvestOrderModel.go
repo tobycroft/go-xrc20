@@ -13,17 +13,19 @@ type Interface struct {
 	Db gorose.IOrm
 }
 
-func (self *Interface) Api_insert(uid, pid, order_id, price, balance, left_amount, deploy_amount, last_exec interface{}) bool {
+func (self *Interface) Api_insert(uid, pid, cid, mid, order_id, amount, from, to, tx_id, tx_compelete interface{}) bool {
 	db := self.Db.Table(table)
 	data := map[string]interface{}{
-		"uid":           uid,
-		"pid":           pid,
-		"order_id":      order_id,
-		"price":         price,
-		"balance":       balance,
-		"left_amount":   left_amount,
-		"deploy_amount": deploy_amount,
-		"last_exec":     last_exec,
+		"uid":          uid,
+		"pid":          pid,
+		"cid":          cid,
+		"mid":          mid,
+		"order_id":     order_id,
+		"amount":       amount,
+		"from":         from,
+		"to":           to,
+		"tx_id":        tx_id,
+		"tx_compelete": tx_compelete,
 	}
 	db.Data(data)
 	_, err := db.Insert()
