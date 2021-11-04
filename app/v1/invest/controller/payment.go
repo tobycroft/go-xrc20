@@ -63,7 +63,11 @@ func payment_buy(c *gin.Context) {
 	db := tuuz.Db()
 	var iv InvestOrderModel.Interface
 	iv.Db = db
-	iv.Api_find()
+	data := iv.Api_find_compelete(uid)
+	if len(data) > 0 {
+		RET.Fail(c, 407, nil, "前一单未完成，请等待前一单完成或失败")
+		return
+	}
 	order_id := Calc.GenerateOrderId()
 	if !iv.Api_insert(uid, user["pid"], coin["id"], mode, order_id, amount, from, to, "", 0) {
 		RET.Fail(c, 500, nil, nil)
