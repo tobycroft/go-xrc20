@@ -8,6 +8,17 @@ import (
 
 const table = "invest_mode"
 
+func Api_select() []gorose.Data {
+	db := tuuz.Db().Table(table)
+	ret, err := db.Get()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return nil
+	} else {
+		return ret
+	}
+}
+
 func Api_find(generation interface{}) gorose.Data {
 	db := tuuz.Db().Table(table)
 	db.Where("generation", "=", generation)
