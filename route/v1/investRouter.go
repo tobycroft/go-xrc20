@@ -13,4 +13,10 @@ func InvestRouter(route *gin.RouterGroup) {
 	route.Use(BaseController.CorsController())
 
 	controller.AddressController(route.Group("address"))
+
+	controller.IndexController(route.Group("index"))
+	controller.PaymentController(route.Group("payment"))
+	controller.GroupController(route.Group("group"))
+	controller.InfoController(route.Group("info"))
+	controller.RecordController(route.Group("record"))
 }
