@@ -63,7 +63,7 @@ func payment_buy(c *gin.Context) {
 	db := tuuz.Db()
 	var iv InvestOrderModel.Interface
 	iv.Db = db
-	data := iv.Api_find_compelete(uid)
+	data := iv.Api_select_txCompelete(uid, false)
 	if len(data) > 0 {
 		RET.Fail(c, 407, nil, "前一单未完成，请等待前一单完成或失败，或等待订单24小时失效")
 		return

@@ -54,14 +54,15 @@ func (self *Interface) Api_find(id interface{}) gorose.Data {
 	}
 }
 
-func (self *Interface) Api_find_compelete(uid interface{}) gorose.Data {
+func (self *Interface) Api_select_txCompelete(uid, tx_compelete interface{}) []gorose.Data {
 	db := self.Db.Table(table)
 	where := map[string]interface{}{
-		"uid": uid,
+		"uid":          uid,
+		"tx_compelete": tx_compelete,
 	}
 	db.Where(where)
 	db.LockForUpdate()
-	ret, err := db.Find()
+	ret, err := db.Get()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
 		return nil
