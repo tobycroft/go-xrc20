@@ -73,5 +73,4 @@ func payment_buy(c *gin.Context) {
 		RET.Fail(c, 500, nil, nil)
 		return
 	}
-
 }
