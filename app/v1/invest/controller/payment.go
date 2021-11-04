@@ -65,7 +65,7 @@ func payment_buy(c *gin.Context) {
 	iv.Db = db
 	data := iv.Api_find_compelete(uid)
 	if len(data) > 0 {
-		RET.Fail(c, 407, nil, "前一单未完成，请等待前一单完成或失败，或等待订单1小时候失效")
+		RET.Fail(c, 407, nil, "前一单未完成，请等待前一单完成或失败，或等待订单24小时失效")
 		return
 	}
 	order_id := Calc.GenerateOrderId()
