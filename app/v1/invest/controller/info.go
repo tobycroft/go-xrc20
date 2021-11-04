@@ -21,7 +21,7 @@ func info_get(c *gin.Context) {
 
 	RET.Success(c, 0, map[string]interface{}{
 		"total": invest_total_num,
-		"has":   0,
+		"has":   150,
 	}, nil)
 }
 
