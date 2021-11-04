@@ -21,7 +21,7 @@ func IndexController(route *gin.RouterGroup) {
 func index_test(c *gin.Context) {
 	db := tuuz.Db()
 	db.Execute("UPDATE `fbcct`.`invest_order` SET `last_exec` = 0")
-	Invest.Invest_function()
+	//Invest.Invest_function()
 	RET.Success(c, 0, nil, "执行需要时间，等个几十秒吧")
 }
 
