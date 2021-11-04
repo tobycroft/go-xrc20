@@ -61,12 +61,11 @@ func payment_buy(c *gin.Context) {
 		return
 	}
 	db := tuuz.Db()
-	db.Begin()
 	var iv InvestOrderModel.Interface
 	iv.Db = db
+	iv.Api_find()
 	order_id := Calc.GenerateOrderId()
 	if !iv.Api_insert(uid, user["pid"], coin["id"], mode, order_id, amount, from, to, "", 0) {
-		db.Rollback()
 		RET.Fail(c, 500, nil, nil)
 		return
 	}

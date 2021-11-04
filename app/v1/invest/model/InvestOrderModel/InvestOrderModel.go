@@ -28,6 +28,7 @@ func (self *Interface) Api_insert(uid, pid, cid, mid, order_id, amount, from, to
 		"tx_compelete": tx_compelete,
 	}
 	db.Data(data)
+	db.LockForUpdate()
 	_, err := db.Insert()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
@@ -43,6 +44,23 @@ func (self *Interface) Api_find(id interface{}) gorose.Data {
 		"id": id,
 	}
 	db.Where(where)
+	db.LockForUpdate()
+	ret, err := db.Find()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return nil
+	} else {
+		return ret
+	}
+}
+
+func (self *Interface) Api_find_compelete(uid interface{}) gorose.Data {
+	db := self.Db.Table(table)
+	where := map[string]interface{}{
+		"uid": uid,
+	}
+	db.Where(where)
+	db.LockForUpdate()
 	ret, err := db.Find()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
@@ -59,6 +77,7 @@ func (self *Interface) Api_find_first(uid interface{}) gorose.Data {
 	}
 	db.Where(where)
 	db.OrderBy("id asc")
+	db.LockForUpdate()
 	ret, err := db.Find()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
@@ -74,6 +93,7 @@ func (self *Interface) Api_select_byUid(uid interface{}) []gorose.Data {
 		"uid": uid,
 	}
 	db.Where(where)
+	db.LockForUpdate()
 	ret, err := db.Get()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
@@ -89,6 +109,7 @@ func (self *Interface) Api_select_byPid(pid interface{}) []gorose.Data {
 		"pid": pid,
 	}
 	db.Where(where)
+	db.LockForUpdate()
 	ret, err := db.Get()
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
