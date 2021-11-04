@@ -8,12 +8,9 @@ import (
 )
 
 func AddressController(route *gin.RouterGroup) {
-
-	route.Use(BaseController.CommonController(), gin.Recovery())
 	route.Use(BaseController.LoginedController(), gin.Recovery())
 
 	route.Any("get", address_get)
-
 }
 
 func address_get(c *gin.Context) {

@@ -6,7 +6,10 @@ import (
 )
 
 func PaymentController(route *gin.RouterGroup) {
-	route.Use(BaseController.CorsController())
 	route.Use(BaseController.LoginedController(), gin.Recovery())
+
+}
+
+func payment_buy(c *gin.Context) {
 
 }

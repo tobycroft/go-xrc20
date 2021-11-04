@@ -12,7 +12,6 @@ import (
 )
 
 func GroupController(route *gin.RouterGroup) {
-	route.Use(BaseController.CorsController())
 	route.Use(BaseController.LoginedController(), gin.Recovery())
 
 	route.Any("amount", group_amount)
