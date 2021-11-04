@@ -11,8 +11,6 @@ import (
 )
 
 func InfoController(route *gin.RouterGroup) {
-
-	route.Use(BaseController.CorsController())
 	route.Use(BaseController.LoginedController(), gin.Recovery())
 
 	route.Any("get", info_get)

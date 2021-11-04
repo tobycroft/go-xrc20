@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"main.go/app/cron/Invest"
 	"main.go/common/BaseController"
 	"main.go/tuuz"
 	"main.go/tuuz/RET"

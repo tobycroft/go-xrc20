@@ -19,4 +19,5 @@ func InvestRouter(route *gin.RouterGroup) {
 	controller.GroupController(route.Group("group"))
 	controller.InfoController(route.Group("info"))
 	controller.RecordController(route.Group("record"))
+	controller.ModeController(route.Group("mode"))
 }
