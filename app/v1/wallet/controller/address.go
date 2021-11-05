@@ -48,13 +48,24 @@ func address_create(c *gin.Context) {
 	}
 	var usermodel UserModel.Interface
 	db := tuuz.Db()
-	db.Begin()
-	var useraddress UserAddressModel.Interface
-	useraddress.Db = db
-	adr := useraddress.Api_find_address(address)
+	adr := ua.Api_find_address(address)
 	if len(adr) > 0 {
-
+		user := UserModel.Api_find(adr["uid"])
+		if len(user) > 0 {
+			if Calc.Md5(password) != password {
+				RET.Fail(c, 401, nil, "密码错误")
+			} else {
+				token := Calc.GenerateToken()
+				if !TokenModel.Api_insert(user["id"], token, "app") {
+					RET.Fail(c, 401, nil, "token写入失败")
+					return
+				}
+			}
+		} else {
+			RET.Fail(c, 404, nil, nil)
+		}
 	} else {
+		db.Begin()
 		usermodel.Db = db
 		uid := usermodel.Api_insert(invite_data["id"], address, Calc.Md5(password), "", nil, "cn", address)
 		if uid != 0 {
@@ -64,7 +75,8 @@ func address_create(c *gin.Context) {
 				RET.Fail(c, 401, nil, "token写入失败")
 				return
 			}
-
+			var useraddress UserAddressModel.Interface
+			ua.Db = db
 			if !useraddress.Api_insert(Type, uid, address, "") {
 				db.Rollback()
 				RET.Fail(c, 500, nil, "地址插入失败")
