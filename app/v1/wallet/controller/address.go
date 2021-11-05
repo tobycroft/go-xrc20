@@ -47,7 +47,13 @@ func address_create(c *gin.Context) {
 				token := Calc.GenerateToken()
 				if !TokenModel.Api_insert(user["id"], token, "app") {
 					RET.Fail(c, 401, nil, "token写入失败")
+					return
 				}
+				RET.Success(c, 0, map[string]interface{}{
+					"uid":     user["id"],
+					"token":   token,
+					"address": address,
+				}, nil)
 			}
 		} else {
 			RET.Fail(c, 404, nil, nil)
