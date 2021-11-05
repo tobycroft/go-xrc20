@@ -30,24 +30,13 @@ func address_create(c *gin.Context) {
 		RET.Fail(c, 400, err.Error(), "密码长度不符合要求")
 		return
 	}
-	invite_code, ok := Input.Post("invite_code", c, false)
-	if !ok {
-		return
-	}
+	invite_code := c.PostForm("invite_code")
 	Type, ok := Input.PostIn("type", c, []string{"eth", "trc"})
 	if !ok {
 		return
 	}
 	var ua UserAddressModel.Interface
 	ua.Db = tuuz.Db()
-	ua.Api_find_address(address)
-	invite_data := UserModel.Api_find_byUsername(invite_code)
-	if len(invite_data) < 1 {
-		RET.Fail(c, 404, nil, "邀请人不存在")
-		return
-	}
-	var usermodel UserModel.Interface
-	db := tuuz.Db()
 	adr := ua.Api_find_address(address)
 	if len(adr) > 0 {
 		user := UserModel.Api_find(adr["uid"])
@@ -58,14 +47,21 @@ func address_create(c *gin.Context) {
 				token := Calc.GenerateToken()
 				if !TokenModel.Api_insert(user["id"], token, "app") {
 					RET.Fail(c, 401, nil, "token写入失败")
-					return
 				}
 			}
 		} else {
 			RET.Fail(c, 404, nil, nil)
 		}
 	} else {
+		ua.Api_find_address(address)
+		invite_data := UserModel.Api_find_byUsername(invite_code)
+		if len(invite_data) < 1 {
+			RET.Fail(c, 404, nil, "邀请人不存在")
+			return
+		}
+		db := tuuz.Db()
 		db.Begin()
+		var usermodel UserModel.Interface
 		usermodel.Db = db
 		uid := usermodel.Api_insert(invite_data["id"], address, Calc.Md5(password), "", nil, "cn", address)
 		if uid != 0 {
