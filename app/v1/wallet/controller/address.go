@@ -41,7 +41,7 @@ func address_create(c *gin.Context) {
 	if len(adr) > 0 {
 		user := UserModel.Api_find(adr["uid"])
 		if len(user) > 0 {
-			if Calc.Md5(password) != password {
+			if Calc.Md5(password) != user["password"] {
 				RET.Fail(c, 401, nil, "密码错误")
 			} else {
 				token := Calc.GenerateToken()
