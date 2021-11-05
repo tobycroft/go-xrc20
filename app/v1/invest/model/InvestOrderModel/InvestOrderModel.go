@@ -206,6 +206,17 @@ func (self *Interface) Api_sum_byUid(uid interface{}) (interface{}, interface{},
 	}
 }
 
+func (self *Interface) Api_sum_amount() interface{} {
+	db := self.Db.Table(table)
+	ret, err := db.Sum("amount")
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return ret
+	} else {
+		return ret
+	}
+}
+
 func (self *Interface) Api_sum_byUidAndPid(uid, pid interface{}) (interface{}, interface{}, interface{}, interface{}) {
 	db := self.Db.Table(table)
 	db.Fields("sum(price) as price, sum(balance) as balance, sum(left_amount) as left_amount,sum(deploy_amount) as deploy_amount")
