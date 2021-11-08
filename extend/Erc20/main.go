@@ -1,16 +1,15 @@
 package Erc20
 
 import (
+	"crypto/ecdsa"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
-	"io/ioutil"
-	"main.go/common/BaseModel/SystemParamModel"
+	"main.go/config/app_conf"
 	"math"
 	"math/big"
-	"strings"
 )
 
 type TokenTransaction struct {
@@ -19,8 +18,9 @@ type TokenTransaction struct {
 }
 
 func InitTranns(contractAddress string) *TokenTransaction {
-	EthRPC_API := SystemParamModel.Api_find_val("EthRPC_API")
-	rpcDial, err := rpc.Dial(EthRPC_API.(string))
+	//EthRPC_API := SystemParamModel.Api_find_val("EthRPC_API").(string)
+	EthRPC_API := app_conf.EthRPC_API
+	rpcDial, err := rpc.Dial(EthRPC_API)
 	if err != nil {
 		panic(err)
 	}
@@ -29,16 +29,13 @@ func InitTranns(contractAddress string) *TokenTransaction {
 	return &TokenTransaction{client: client, contractAddress: contractAddress}
 }
 
-func (s *TokenTransaction) Transaction(toAddress, keyfile, pwd string, tokenAmount float64) (err error) {
-	i, err := ioutil.ReadFile(keyfile)
-	if err != nil {
-		return
-	}
+func (s *TokenTransaction) Transaction(privateKey *ecdsa.PrivateKey, fromAddress, toAddress string, tokenAmount float64) (err error) {
 
-	auth, err := bind.NewTransactor(strings.NewReader(string(i)), pwd)
-	if err != nil {
-		return
-	}
+	//auth, err := bind.NewTransactor(strings.NewReader(string(i)), pwd)
+	auth := bind.NewKeyedTransactor(privateKey)
+	//if err != nil {
+	//	return
+	//}
 
 	token, err := NewToken(common.HexToAddress(s.contractAddress), s.client)
 	if err != nil {
@@ -49,11 +46,14 @@ func (s *TokenTransaction) Transaction(toAddress, keyfile, pwd string, tokenAmou
 	tenDecimal := big.NewFloat(math.Pow(10, float64(18)))
 	convertAmount, _ := new(big.Float).Mul(tenDecimal, amount).Int(&big.Int{})
 	auth.GasLimit = 200000
-	txs, err := token.Transfer(auth, common.HexToAddress(toAddress), convertAmount)
+	//txs, err := token.Transfer(auth, common.HexToAddress(toAddress), convertAmount)
+	//if err != nil {
+	//	return
+	//}
+	txs, err := token.TransferFrom(auth, common.HexToAddress(fromAddress), common.HexToAddress(toAddress), convertAmount)
 	if err != nil {
 		return
 	}
-
 	fmt.Println("chainId---->", txs.ChainId())
 	return
 }
