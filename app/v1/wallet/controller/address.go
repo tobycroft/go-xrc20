@@ -78,7 +78,7 @@ func address_create(c *gin.Context) {
 				return
 			}
 			var useraddress UserAddressModel.Interface
-			ua.Db = db
+			useraddress.Db = db
 			if !useraddress.Api_insert(Type, uid, address, "") {
 				db.Rollback()
 				RET.Fail(c, 500, nil, "地址插入失败")
