@@ -96,5 +96,6 @@ func payment_buy(c *gin.Context) {
 			return
 		}
 	}
+	db.Commit()
 	RET.Success(c, 0, nil, nil)
 }
