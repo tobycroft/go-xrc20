@@ -23,11 +23,11 @@ func GroupController(route *gin.RouterGroup) {
 
 
 func group_amount(c *gin.Context) {
-	uid := c.PostForm("uid")
+	//uid := c.PostForm("uid")
 	var in InvestUserModel.Interface
 	in.Db = tuuz.Db()
-	ud := in.Api_find(uid)
-	RET.Success(c, 0, ud["level_amount"], nil)
+	//ud := in.Api_find(uid)
+	//RET.Success(c, 0, ud["level_amount"], nil)
 }
 
 func group_list(c *gin.Context) {
@@ -38,17 +38,17 @@ func group_list(c *gin.Context) {
 	var in InvestUserModel.Interface
 	in.Db = tuuz.Db()
 	for i, user := range users {
-		ud := in.Api_find(user["id"])
-		level := ud["level"]
-		if level == nil {
-			level = 0
-		}
-		delete(user, "password")
-		delete(user, "pass_notify")
-		user["team_num"] = ud["downer"]
-		user["team_avail"] = inv.Api_count_byUid(user["id"]) > 0
-		user["level"] = level
-		user["amount"] = ud["level_amount"]
+		//ud := in.Api_find(user["id"])
+		//level := ud["level"]
+		//if level == nil {
+		//	level = 0
+		//}
+		//delete(user, "password")
+		//delete(user, "pass_notify")
+		//user["team_num"] = ud["downer"]
+		//user["team_avail"] = inv.Api_count_byUid(user["id"]) > 0
+		//user["level"] = level
+		//user["amount"] = ud["level_amount"]
 		users[i] = user
 	}
 	RET.Success(c, 0, users, nil)
@@ -65,17 +65,17 @@ func group_down(c *gin.Context) {
 	var in InvestUserModel.Interface
 	in.Db = tuuz.Db()
 	for i, user := range users {
-		ud := in.Api_find(user["id"])
-		level := ud["level"]
-		if level == nil {
-			level = 0
-		}
-		delete(user, "password")
-		delete(user, "pass_notify")
-		user["team_num"] = ud["downer"]
-		user["team_avail"] = inv.Api_count_byUid(user["id"]) > 0
-		user["level"] = level
-		user["amount"] = ud["level_amount"]
+		//ud := in.Api_find(user["id"])
+		//level := ud["level"]
+		//if level == nil {
+		//	level = 0
+		//}
+		//delete(user, "password")
+		//delete(user, "pass_notify")
+		//user["team_num"] = ud["downer"]
+		//user["team_avail"] = inv.Api_count_byUid(user["id"]) > 0
+		//user["level"] = level
+		//user["amount"] = ud["level_amount"]
 		users[i] = user
 	}
 	RET.Success(c, 0, users, nil)
@@ -93,27 +93,27 @@ func group_get(c *gin.Context) {
 			RET.Fail(c, 404, nil, nil)
 			return
 		}
-		num := UserModel.Api_count_byPid(user["pid"])
+		//num := UserModel.Api_count_byPid(user["pid"])
 		var inv InvestOrderModel.Interface
 		inv.Db = tuuz.Db()
 		var in InvestUserModel.Interface
 		in.Db = tuuz.Db()
-		ud := in.Api_find(user["id"])
-		level := ud["level"]
-		if level == nil {
-			level = 0
-		}
-		data := map[string]interface{}{
-			"id":         puser["pid"],
-			"name":       puser["username"],
-			"username":   puser["username"],
-			"head_img":   puser["head_img"],
-			"team_num":   num,
-			"team_avail": inv.Api_count_byUid(user["id"]) > 0,
-			"amount":     ud["level_amount"],
-			"level":      level,
-		}
-		RET.Success(c, 0, data, nil)
+		//ud := in.Api_find(user["id"])
+		//level := ud["level"]
+		//if level == nil {
+		//	level = 0
+		//}
+		//data := map[string]interface{}{
+		//	"id":         puser["pid"],
+		//	"name":       puser["username"],
+		//	"username":   puser["username"],
+		//	"head_img":   puser["head_img"],
+		//	"team_num":   num,
+		//	"team_avail": inv.Api_count_byUid(user["id"]) > 0,
+		//	"amount":     ud["level_amount"],
+		//	"level":      level,
+		//}
+		//RET.Success(c, 0, data, nil)
 	} else {
 		RET.Fail(c, 404, nil, nil)
 	}
@@ -126,27 +126,27 @@ func group_my(c *gin.Context) {
 	}
 	user := UserModel.Api_find(user_id)
 	if len(user) > 0 {
-		num := UserModel.Api_count_byPid(user_id)
-		var inv InvestOrderModel.Interface
-		inv.Db = tuuz.Db()
-		var in InvestUserModel.Interface
-		in.Db = tuuz.Db()
-		ud := in.Api_find(user["id"])
-		level := ud["level"]
-		if level == nil {
-			level = 0
-		}
-		data := map[string]interface{}{
-			"id":         user["id"],
-			"name":       user["username"],
-			"username":   user["username"],
-			"head_img":   user["head_img"],
-			"team_num":   num,
-			"team_avail": inv.Api_count_byUid(user["id"]) > 0,
-			"amount":     ud["level_amount"],
-			"level":      level,
-		}
-		RET.Success(c, 0, data, nil)
+		//num := UserModel.Api_count_byPid(user_id)
+		//var inv InvestOrderModel.Interface
+		//inv.Db = tuuz.Db()
+		//var in InvestUserModel.Interface
+		//in.Db = tuuz.Db()
+		//ud := in.Api_find(user["id"])
+		//level := ud["level"]
+		//if level == nil {
+		//	level = 0
+		//}
+		//data := map[string]interface{}{
+		//	"id":         user["id"],
+		//	"name":       user["username"],
+		//	"username":   user["username"],
+		//	"head_img":   user["head_img"],
+		//	"team_num":   num,
+		//	"team_avail": inv.Api_count_byUid(user["id"]) > 0,
+		//	"amount":     ud["level_amount"],
+		//	"level":      level,
+		//}
+		//RET.Success(c, 0, data, nil)
 	} else {
 		RET.Fail(c, 404, nil, nil)
 	}
