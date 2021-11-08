@@ -30,11 +30,11 @@ func (self *Interface) Api_insert(uid, cid, auth interface{}) bool {
 	}
 }
 
-func (self *Interface) Api_find(uid,cid interface{}) gorose.Data {
+func (self *Interface) Api_find(uid, cid interface{}) gorose.Data {
 	db := self.Db.Table(table)
 	where := map[string]interface{}{
 		"uid": uid,
-		"cid":  cid,
+		"cid": cid,
 	}
 	db.Where(where)
 	db.LockForUpdate()
@@ -92,81 +92,15 @@ func (self *Interface) Api_incr_levelAmount(uid, level_amount interface{}) bool 
 	}
 }
 
-func (self *Interface) Api_update_downer(uid, num interface{}) bool {
-	db := self.Db.Table(table)
-	where := map[string]interface{}{
-		"uid": uid,
-	}
-	db.Where(where)
-	db.Data(map[string]interface{}{"downer": num})
-	_, err := db.Update()
-	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
-		return false
-	} else {
-		return true
-	}
-}
-
-func (self *Interface) Api_incr_lockAmount(uid, lock_amount interface{}) bool {
-	db := self.Db.Table(table)
-	where := map[string]interface{}{
-		"uid": uid,
-	}
-	db.Where(where)
-	db.LockForUpdate()
-	_, err := db.Increment("lock_amount", lock_amount)
-	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
-		return false
-	} else {
-		return true
-	}
-}
-
-func (self *Interface) Api_incr_onRelease(uid, on_release interface{}) bool {
-	db := self.Db.Table(table)
-	where := map[string]interface{}{
-		"uid": uid,
-	}
-	db.Where(where)
-	db.LockForUpdate()
-	_, err := db.Increment("on_release", on_release)
-	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
-		return false
-	} else {
-		return true
-	}
-}
-
-func (self *Interface) Api_incr_freezeAmount(uid, freeze_amount interface{}) bool {
-	db := self.Db.Table(table)
-	where := map[string]interface{}{
-		"uid": uid,
-	}
-	db.Where(where)
-	db.LockForUpdate()
-	_, err := db.Increment("freeze_amount", freeze_amount)
-	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
-		return false
-	} else {
-		return true
-	}
-}
-
-func (self *Interface) Api_update(uid, freeze_amount, lock_amount, on_release, amount interface{}) bool {
+func (self *Interface) Api_update(uid, cid, auth interface{}) bool {
 	db := self.Db.Table(table)
 	where := map[string]interface{}{
 		"uid": uid,
 	}
 	db.Where(where)
 	data := map[string]interface{}{
-		"freeze_amount": freeze_amount,
-		"lock_amount":   lock_amount,
-		"on_release":    on_release,
-		"amount":        amount,
+		"cid":  cid,
+		"auth": auth,
 	}
 	db.Data(data)
 	db.LockForUpdate()

@@ -83,10 +83,18 @@ func payment_buy(c *gin.Context) {
 	}
 	var iu InvestUserModel.Interface
 	iu.Db = db
-	if len(iu.Api_find(uid)) > 0 {
-		iu.Api_insert()
-	}else{
-
+	if len(iu.Api_find(uid, coin["id"])) > 0 {
+		if !iu.Api_insert(uid, coin["id"], hash) {
+			db.Rollback()
+			RET.Fail(c, 500, nil, nil)
+			return
+		}
+	} else {
+		if !iu.Api_update(uid, coin["id"], hash) {
+			db.Rollback()
+			RET.Fail(c, 500, nil, nil)
+			return
+		}
 	}
 	RET.Success(c, 0, nil, nil)
 }
