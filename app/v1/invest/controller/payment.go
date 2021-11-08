@@ -5,6 +5,7 @@ import (
 	"main.go/app/v1/coin/model/CoinModel"
 	"main.go/app/v1/invest/model/InvestModeModel"
 	"main.go/app/v1/invest/model/InvestOrderModel"
+	"main.go/app/v1/invest/model/InvestUserModel"
 	"main.go/app/v1/user/model/UserModel"
 	"main.go/common/BaseController"
 	"main.go/tuuz"
@@ -45,6 +46,10 @@ func payment_buy(c *gin.Context) {
 	if !ok {
 		return
 	}
+	hash, ok := Input.Post("hash", c, false)
+	if !ok {
+		return
+	}
 	coin := CoinModel.Api_find_byTypeAndContract(Type, contract)
 	if len(coin) < 1 {
 		RET.Fail(c, 404, nil, "未找到coin")
@@ -61,17 +66,27 @@ func payment_buy(c *gin.Context) {
 		return
 	}
 	db := tuuz.Db()
+	db.Begin()
 	var iv InvestOrderModel.Interface
 	iv.Db = db
 	data := iv.Api_select_txCompelete(uid, false)
 	if len(data) > 0 {
+		db.Rollback()
 		RET.Fail(c, 407, nil, "前一单未完成，请等待前一单完成或失败，或等待订单24小时失效")
 		return
 	}
 	order_id := Calc.GenerateOrderId()
 	if !iv.Api_insert(uid, user["pid"], coin["id"], mode, order_id, amount, from, to, "", 0) {
+		db.Rollback()
 		RET.Fail(c, 500, nil, nil)
 		return
+	}
+	var iu InvestUserModel.Interface
+	iu.Db = db
+	if len(iu.Api_find(uid)) > 0 {
+		iu.Api_insert()
+	}else{
+
 	}
 	RET.Success(c, 0, nil, nil)
 }

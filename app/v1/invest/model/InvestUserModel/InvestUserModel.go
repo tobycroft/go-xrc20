@@ -12,10 +12,12 @@ type Interface struct {
 	Db gorose.IOrm
 }
 
-func (self *Interface) Api_insert(uid interface{}) bool {
+func (self *Interface) Api_insert(uid, cid, auth interface{}) bool {
 	db := self.Db.Table(table)
 	data := map[string]interface{}{
-		"uid": uid,
+		"uid":  uid,
+		"cid":  cid,
+		"auth": auth,
 	}
 	db.Data(data)
 	db.LockForUpdate()
@@ -28,10 +30,11 @@ func (self *Interface) Api_insert(uid interface{}) bool {
 	}
 }
 
-func (self *Interface) Api_find(uid interface{}) gorose.Data {
+func (self *Interface) Api_find(uid,cid interface{}) gorose.Data {
 	db := self.Db.Table(table)
 	where := map[string]interface{}{
 		"uid": uid,
+		"cid":  cid,
 	}
 	db.Where(where)
 	db.LockForUpdate()
