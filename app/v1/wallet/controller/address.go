@@ -6,7 +6,6 @@ import (
 	"main.go/app/v1/wallet/model/UserAddressModel"
 	"main.go/common/BaseController"
 	"main.go/common/BaseModel/TokenModel"
-	"main.go/extend/Erc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Input"
@@ -98,10 +97,5 @@ func address_create(c *gin.Context) {
 	}
 }
 
-func address_trans(c *gin.Context){
-	t := Erc20_Usdt.InitTranns("http://127.0.0.1", "0xdd974D5C2e2928deA5F71b9825b8b646686BD200")
-	err := t.Transaction("input your address you want transc", "key file path", "your pwd", 0.0001)
-	if err != nil {
-		panic(err)
-	}
+func address_trans(c *gin.Context) {
 }
