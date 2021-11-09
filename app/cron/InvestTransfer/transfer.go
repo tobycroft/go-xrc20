@@ -28,17 +28,27 @@ func InvestTransfer() {
 		err, txs := t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), eth_address, Calc.ToDecimal(data["amount"]))
 		//fmt.Println("err",err)
 		if err != nil {
-			continue
+			db.Begin()
+			if !io.Api_update_progress(data["id"], -1) {
+				db.Rollback()
+				continue
+			}
+			if !io.Api_update_remark(data["id"], err.Error()) {
+				db.Rollback()
+				continue
+			}
+			db.Commit()
+		} else {
+			db.Begin()
+			if !io.Api_update_progress(data["id"], 1) {
+				db.Rollback()
+				continue
+			}
+			if !io.Api_update_remark(data["id"], txs.Hash().String()) {
+				db.Rollback()
+				continue
+			}
+			db.Commit()
 		}
-		db.Begin()
-		if !io.Api_update_progress(data["id"], 1) {
-			db.Rollback()
-			continue
-		}
-		if !io.Api_update_txId(data["id"], txs.Hash().String()) {
-			db.Rollback()
-			continue
-		}
-		db.Commit()
 	}
 }

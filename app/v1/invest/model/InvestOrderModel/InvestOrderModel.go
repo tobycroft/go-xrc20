@@ -277,3 +277,22 @@ func (self *Interface) Api_update_txId(id, tx_id interface{}) bool {
 		return true
 	}
 }
+
+func (self *Interface) Api_update_remark(id, remark interface{}) bool {
+	db := self.Db.Table(table)
+	where := map[string]interface{}{
+		"id": id,
+	}
+	db.Where(where)
+	data := map[string]interface{}{
+		"remark": remark,
+	}
+	db.Data(data)
+	_, err := db.Update()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return false
+	} else {
+		return true
+	}
+}
