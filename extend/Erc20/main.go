@@ -1,10 +1,11 @@
 package Erc20
 
 import (
-	"crypto/ecdsa"
+	"encoding/hex"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
 	"main.go/config/app_conf"
@@ -29,10 +30,14 @@ func InitTranns(contractAddress string) *TokenTransaction {
 	return &TokenTransaction{client: client, contractAddress: contractAddress}
 }
 
-func (s *TokenTransaction) Transaction(privateKey *ecdsa.PrivateKey, fromAddress, toAddress string, tokenAmount float64) (err error) {
-
+func (s *TokenTransaction) Transaction(privateKey string, fromAddress, toAddress string, tokenAmount float64) (err error) {
+	privateBytes, err := hex.DecodeString(privateKey)
+	if err != nil {
+		return fmt.Errorf("hex decode private key error: %v", err)
+	}
+	priv := crypto.ToECDSAUnsafe(privateBytes)
 	//auth, err := bind.NewTransactor(strings.NewReader(string(i)), pwd)
-	auth := bind.NewKeyedTransactor(privateKey)
+	auth := bind.NewKeyedTransactor(priv)
 	//if err != nil {
 	//	return
 	//}
