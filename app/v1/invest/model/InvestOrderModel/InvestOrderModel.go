@@ -313,3 +313,22 @@ func (self *Interface) Api_update_leftAmountAndDeployAmount(id, left_amount, dep
 		return true
 	}
 }
+
+func (self *Interface) Api_update_progress(id, progress interface{}) bool {
+	db := self.Db.Table(table)
+	where := map[string]interface{}{
+		"id": id,
+	}
+	db.Where(where)
+	data := map[string]interface{}{
+		"progress": progress,
+	}
+	db.Data(data)
+	_, err := db.Update()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return false
+	} else {
+		return true
+	}
+}
