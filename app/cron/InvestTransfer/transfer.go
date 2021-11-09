@@ -1,6 +1,7 @@
 package InvestTransfer
 
 import (
+	"fmt"
 	"main.go/app/v1/coin/model/CoinModel"
 	"main.go/app/v1/invest/model/InvestOrderModel"
 	"main.go/app/v1/wallet/model/UserAddressModel"
@@ -27,7 +28,8 @@ func InvestTransfer() {
 		if len(useraddr) < 1 {
 			continue
 		}
-		t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), eth_address, Calc.ToDecimal(data["amount"]))
+		err := t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), eth_address, Calc.ToDecimal(data["amount"]))
+		fmt.Println(err)
 		io.Api_update_progress(id, 1)
 	}
 }

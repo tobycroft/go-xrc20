@@ -1,18 +1,18 @@
 package Erc20_Usdt
+
 // Code generated - DO NOT EDIT.
 // This file is a generated binding and any manual changes will be lost.
 
-
 import (
-"math/big"
-"strings"
+	"math/big"
+	"strings"
 
-ethereum "github.com/ethereum/go-ethereum"
-"github.com/ethereum/go-ethereum/accounts/abi"
-"github.com/ethereum/go-ethereum/accounts/abi/bind"
-"github.com/ethereum/go-ethereum/common"
-"github.com/ethereum/go-ethereum/core/types"
-"github.com/ethereum/go-ethereum/event"
+	ethereum "github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/event"
 )
 
 // TokenABI is the input ABI used to generate the binding from.
@@ -127,7 +127,7 @@ func bindToken(address common.Address, caller bind.ContractCaller, transactor bi
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
 func (_Token *TokenRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
-	return _Token.Contract.TokenCaller.contract.Call(opts, result, method, params...)
+	return _Token.Contract.TokenCaller.contract.Call(opts, &[]interface{}{result}, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
@@ -146,7 +146,7 @@ func (_Token *TokenRaw) Transact(opts *bind.TransactOpts, method string, params 
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
 func (_Token *TokenCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
-	return _Token.Contract.contract.Call(opts, result, method, params...)
+	return _Token.Contract.contract.Call(opts, &[]interface{}{result}, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
@@ -168,7 +168,7 @@ func (_Token *TokenCaller) Allowance(opts *bind.CallOpts, _owner common.Address,
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "allowance", _owner, _spender)
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "allowance", _owner, _spender)
 	return *ret0, err
 }
 
@@ -194,7 +194,7 @@ func (_Token *TokenCaller) BalanceOf(opts *bind.CallOpts, _owner common.Address)
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "balanceOf", _owner)
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "balanceOf", _owner)
 	return *ret0, err
 }
 
@@ -220,7 +220,7 @@ func (_Token *TokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, error) {
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "decimals")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "decimals")
 	return *ret0, err
 }
 
@@ -246,7 +246,7 @@ func (_Token *TokenCaller) Name(opts *bind.CallOpts) (string, error) {
 		ret0 = new(string)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "name")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "name")
 	return *ret0, err
 }
 
@@ -272,7 +272,7 @@ func (_Token *TokenCaller) Owner(opts *bind.CallOpts) (common.Address, error) {
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "owner")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "owner")
 	return *ret0, err
 }
 
@@ -298,7 +298,7 @@ func (_Token *TokenCaller) SaleEndTime(opts *bind.CallOpts) (*big.Int, error) {
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "saleEndTime")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "saleEndTime")
 	return *ret0, err
 }
 
@@ -324,7 +324,7 @@ func (_Token *TokenCaller) SaleStartTime(opts *bind.CallOpts) (*big.Int, error) 
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "saleStartTime")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "saleStartTime")
 	return *ret0, err
 }
 
@@ -350,7 +350,7 @@ func (_Token *TokenCaller) Symbol(opts *bind.CallOpts) (string, error) {
 		ret0 = new(string)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "symbol")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "symbol")
 	return *ret0, err
 }
 
@@ -376,7 +376,7 @@ func (_Token *TokenCaller) TokenSaleContract(opts *bind.CallOpts) (common.Addres
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "tokenSaleContract")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "tokenSaleContract")
 	return *ret0, err
 }
 
@@ -402,7 +402,7 @@ func (_Token *TokenCaller) TotalSupply(opts *bind.CallOpts) (*big.Int, error) {
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Token.contract.Call(opts, out, "totalSupply")
+	err := _Token.contract.Call(opts, &[]interface{}{out}, "totalSupply")
 	return *ret0, err
 }
 
