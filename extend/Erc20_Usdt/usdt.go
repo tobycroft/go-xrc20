@@ -61,7 +61,7 @@ func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddres
 		fmt.Println("TransferFrom",err)
 		return
 	}
-	fmt.Println(txs)
+	fmt.Println(txs.Hash())
 	fmt.Println("chainId---->", txs.ChainId())
 	return
 }
