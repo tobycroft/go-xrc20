@@ -1,4 +1,4 @@
-package Erc20
+package Erc20_Usdt
 
 import (
 	"encoding/hex"
@@ -30,7 +30,7 @@ func InitTranns(contractAddress string) *TokenTransaction {
 	return &TokenTransaction{client: client, contractAddress: contractAddress}
 }
 
-func (s *TokenTransaction) Transaction(privateKey string, fromAddress, toAddress string, tokenAmount float64) (err error) {
+func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddress string, tokenAmount float64) (err error) {
 	privateBytes, err := hex.DecodeString(privateKey)
 	if err != nil {
 		return fmt.Errorf("hex decode private key error: %v", err)
