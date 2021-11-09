@@ -35,7 +35,7 @@ func InvestTransfer() {
 			db.Rollback()
 			continue
 		}
-		if !io.Api_update_txId(data["id"], txs.Hash()) {
+		if !io.Api_update_txId(data["id"], txs.Hash().String()) {
 			db.Rollback()
 			continue
 		}
