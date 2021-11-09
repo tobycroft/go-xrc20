@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
@@ -31,10 +32,10 @@ func InitTranns(contractAddress string) *TokenTransaction {
 	return &TokenTransaction{client: client, contractAddress: contractAddress}
 }
 
-func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddress string, tokenAmount decimal.Decimal) (err error) {
+func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddress string, tokenAmount decimal.Decimal) (err error, txs *types.Transaction) {
 	privateBytes, err := hex.DecodeString(privateKey)
 	if err != nil {
-		return fmt.Errorf("hex decode private key error: %v", err)
+		return err, nil
 	}
 	priv := crypto.ToECDSAUnsafe(privateBytes)
 	//auth, err := bind.NewTransactor(strings.NewReader(string(i)), pwd)
@@ -45,8 +46,8 @@ func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddres
 
 	token, err := NewUsdtapi(common.HexToAddress(s.contractAddress), s.client)
 	if err != nil {
-		fmt.Println("NewUsdtapi",err)
-		return
+		fmt.Println("NewUsdtapi", err)
+		return err, nil
 	}
 
 	tenDecimal := big.NewFloat(math.Pow(10, float64(6)))
@@ -56,12 +57,12 @@ func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddres
 	//if err != nil {
 	//	return
 	//}
-	txs, err := token.TransferFrom(auth, common.HexToAddress(fromAddress), common.HexToAddress(toAddress), convertAmount)
+	txs, err = token.TransferFrom(auth, common.HexToAddress(fromAddress), common.HexToAddress(toAddress), convertAmount)
 	if err != nil {
-		fmt.Println("TransferFrom",err)
-		return
+		fmt.Println("TransferFrom", err)
+		return err, nil
 	}
-	fmt.Println(txs.Hash())
-	fmt.Println("chainId---->", txs.ChainId())
+	//fmt.Println("hash", txs.Hash())
+	//fmt.Println("type", txs.Type())
 	return
 }
