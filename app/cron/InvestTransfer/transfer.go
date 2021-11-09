@@ -6,7 +6,7 @@ import (
 	"main.go/app/v1/invest/model/InvestOrderModel"
 	"main.go/app/v1/wallet/model/UserAddressModel"
 	"main.go/common/BaseModel/SystemParamModel"
-	Erc20_Usdt "main.go/extend/Erc20-Usdt"
+	Erc20_Usdt "main.go/extend/Erc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
 )

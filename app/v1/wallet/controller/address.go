@@ -6,7 +6,7 @@ import (
 	"main.go/app/v1/wallet/model/UserAddressModel"
 	"main.go/common/BaseController"
 	"main.go/common/BaseModel/TokenModel"
-	"main.go/extend/Erc20-Usdt"
+	"main.go/extend/Erc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Input"
