@@ -7,11 +7,12 @@ import (
 	"main.go/common/BaseModel/SystemParamModel"
 	Erc20_Usdt "main.go/extend/Erc20-Usdt"
 	"main.go/tuuz"
+	"main.go/tuuz/Calc"
 )
 
 func InvestTransfer() {
 	coin := CoinModel.Api_find_byTypeAndName("eth", "usdt")
-	eth_address := SystemParamModel.Api_find_val("eth_address")
+	eth_address := SystemParamModel.Api_find_val("eth_address").(string)
 	db := tuuz.Db()
 	var io InvestOrderModel.Interface
 	io.Db = db
@@ -26,7 +27,7 @@ func InvestTransfer() {
 		if len(useraddr) < 1 {
 			continue
 		}
-		t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr,eth_address,data["amount"])
+		t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), eth_address, Calc.ToDecimal(data["amount"]))
 		io.Api_update_progress(id, 1)
 	}
 }
