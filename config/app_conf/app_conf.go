@@ -7,4 +7,4 @@ const AppMode = "debug"
 const WebsocketKey = ""
 const RemoteKey = ""
 
-const EthRPC_API = "https://mainnet.infura.io/"
+const EthRPC_API = "http://127.0.0.1:8545"

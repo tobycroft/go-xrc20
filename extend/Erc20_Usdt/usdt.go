@@ -43,8 +43,9 @@ func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddres
 	//	return
 	//}
 
-	token, err := NewToken(common.HexToAddress(s.contractAddress), s.client)
+	token, err := NewUsdtapi(common.HexToAddress(s.contractAddress), s.client)
 	if err != nil {
+		fmt.Println("NewUsdtapi",err)
 		return
 	}
 
@@ -57,8 +58,10 @@ func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddres
 	//}
 	txs, err := token.TransferFrom(auth, common.HexToAddress(fromAddress), common.HexToAddress(toAddress), convertAmount)
 	if err != nil {
+		fmt.Println("TransferFrom",err)
 		return
 	}
+	fmt.Println(txs)
 	fmt.Println("chainId---->", txs.ChainId())
 	return
 }
