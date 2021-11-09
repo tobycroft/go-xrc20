@@ -1,16 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"main.go/route"
+	"main.go/app/cron/InvestTransfer"
 )
 
 func main() {
 
-	mainroute := gin.Default()
-	//gin.SetMode(gin.ReleaseMode)
-	//gin.DefaultWriter = ioutil.Discard
-	route.OnRoute(mainroute)
-	mainroute.Run(":80")
+	InvestTransfer.InvestTransfer()
+
+	//mainroute := gin.Default()
+	//route.OnRoute(mainroute)
+	//mainroute.Run(":80")
 
 }
