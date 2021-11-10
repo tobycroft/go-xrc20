@@ -10,7 +10,7 @@ import (
 	"main.go/tuuz/Calc"
 )
 
-func InvestTransfer_eth() {
+func InvestTransfer_trc() {
 	coin := CoinModel.Api_find_byTypeAndName("eth", "usdt")
 	eth_address := SystemParamModel.Api_find_val("eth_address").(string)
 	db := tuuz.Db()
