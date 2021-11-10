@@ -8,9 +8,17 @@ import (
 	Erc20_Usdt "main.go/extend/Erc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
+	"time"
 )
 
-func InvestTransfer() {
+func Refresh_eth() {
+	for {
+		InvestTransfer_eth()
+		time.Sleep(60 * time.Second)
+	}
+}
+
+func InvestTransfer_eth() {
 	coin := CoinModel.Api_find_byTypeAndName("eth", "usdt")
 	eth_address := SystemParamModel.Api_find_val("eth_address").(string)
 	db := tuuz.Db()
