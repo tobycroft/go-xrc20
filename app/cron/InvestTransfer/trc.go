@@ -5,7 +5,7 @@ import (
 	"main.go/app/v1/invest/model/InvestOrderModel"
 	"main.go/app/v1/wallet/model/UserAddressModel"
 	"main.go/common/BaseModel/SystemParamModel"
-	"main.go/extend/Erc20_Usdt"
+	"main.go/extend/Trc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
 )
@@ -18,7 +18,7 @@ func InvestTransfer_trc() {
 	io.Db = db
 	datas := io.Api_select_byProgress(0)
 	for _, data := range datas {
-		t := Erc20_Usdt.InitTranns(coin["contract"].(string))
+		t := Trc20_Usdt.InitTranns(coin["contract"].(string))
 		var us UserAddressModel.Interface
 		us.Db = db
 		useraddr := us.Api_find(data["uid"], "eth")
@@ -52,4 +52,3 @@ func InvestTransfer_trc() {
 		}
 	}
 }
-

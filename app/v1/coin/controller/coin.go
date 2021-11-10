@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"main.go/app/v1/coin/action/RatioAction"
 	"main.go/app/v1/coin/model/CoinModel"
 	"main.go/common/BaseController"
 	"main.go/tuuz/Input"
@@ -18,9 +17,7 @@ func CoinController(route *gin.RouterGroup) {
 
 func coin_list(c *gin.Context) {
 	coins := CoinModel.Api_select()
-	ratio := RatioAction.App_Ratio_handler()
 	for i, coin := range coins {
-		coin["coin_ratio"] = ratio
 		coins[i] = coin
 	}
 	RET.Success(c, 0, coins, nil)

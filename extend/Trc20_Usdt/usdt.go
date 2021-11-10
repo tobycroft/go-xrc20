@@ -1,4 +1,4 @@
-package Erc20_Usdt
+package Trc20_Usdt
 
 import (
 	"encoding/hex"

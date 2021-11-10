@@ -13,6 +13,5 @@ func CoinRouter(route *gin.RouterGroup) {
 	route.Use(BaseController.CorsController())
 
 	controller.CoinController(route.Group("coin"))
-	controller.RatioController(route.Group("ratio"))
 
 }
