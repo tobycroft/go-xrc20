@@ -1,82 +1,54 @@
 package Trc20_Usdt
 
 import (
-	"encoding/hex"
 	"fmt"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/rpc"
+	abi2 "github.com/fbsobreira/gotron-sdk/pkg/abi"
 	"github.com/fbsobreira/gotron-sdk/pkg/address"
-	"github.com/shopspring/decimal"
-	"main.go/config/app_conf"
-	"math"
+	"github.com/fbsobreira/gotron-sdk/pkg/common"
+	"main.go/extend/trx-sign-go-1.0.3/grpcs"
+	"main.go/extend/trx-sign-go-1.0.3/sign"
 	"math/big"
+	"testing"
 )
 
-type TokenTransaction struct {
-	client          *ethclient.Client
-	contractAddress string
-}
-
-func InitTranns(contractAddress string) *TokenTransaction {
-	//EthRPC_API := SystemParamModel.Api_find_val("EthRPC_API").(string)
-	TrcRPC_API := app_conf.TrcRPC_API
-
-	rpcDial, err := rpc.Dial(TrcRPC_API)
+func TransferFrom(t *testing.T) {
+	abi, err := abi2.LoadFromJSON(abiJson)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
+	}
+	bz, err := abi2.Pack("transferFrom", abi)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
-	client := ethclient.NewClient(rpcDial)
-	if err != nil {
-		return nil
-	}
+	s := common.Bytes2Hex(bz)
 
-	return &TokenTransaction{client: client, contractAddress: contractAddress}
-}
+	addrB, err := address.Base58ToAddress(to)
+	if err != nil {
+		return nil, err
+	}
+	ab := common.LeftPadBytes(amount.Bytes(), 32)
+	req := trc20TransferMethodSignature + "0000000000000000000000000000000000000000000000000000000000000000"[len(addrB.Hex())-4:] + addrB.Hex()[4:]
+	req += common.Bytes2Hex(ab)
 
-func (s *TokenTransaction) TransferFrom(privateKey string, fromAddress, toAddress string, tokenAmount decimal.Decimal) (err error, txs *types.Transaction) {
-	privateBytes, err := hex.DecodeString(privateKey)
+	c, err := grpcs.NewClient("54.168.218.95:50051")
 	if err != nil {
-		return err, nil
+		t.Fatal(err)
 	}
-	priv := crypto.ToECDSAUnsafe(privateBytes)
-	//auth, err := bind.NewTransactor(strings.NewReader(string(i)), pwd)
-	auth := bind.NewKeyedTransactor(priv)
-	//if err != nil {
-	//	return
-	//}
-	token, err := NewUsdtapi(common.HexToAddress(s.contractAddress), s.client)
+	amount := big.NewInt(20)
+	amount = amount.Mul(amount, big.NewInt(1000000000000000000))
+	tx, err := c.TransferTrc20("TFTGMfp7hvDtt4fj3vmWnbYsPSmw5EU8oX", "TVwt3HTg6PjP5bbb5x1GtSvTe1J5FYM2BT",
+		"TJ93jQZibdB3sriHYb5nNwjgkPPAcFR7ty", amount, 100000000)
+	signTx, err := sign.SignTransaction(tx.Transaction, "5c023564aa0c582e9a5d127133e9b45c5b9a7a409b22f7e8a5c19d4d3f424eea")
 	if err != nil {
-		fmt.Println("NewUsdtapi", err)
-		return err, nil
+		t.Fatal(err)
 	}
+	err = c.BroadcastTransaction(signTx)
+	if err != nil {
+		t.Fatal(err)
 
-	tenDecimal := big.NewFloat(math.Pow(10, float64(6)))
-	convertAmount, _ := new(big.Float).Mul(tenDecimal, tokenAmount.BigFloat()).Int(&big.Int{})
-	auth.GasLimit = 200000
-	//txs, err := token.Transfer(auth, common.HexToAddress(toAddress), convertAmount)
-	//if err != nil {
-	//	return
-	//}
-	addrA, err := address.Base58ToAddress(fromAddress)
-	if err != nil {
-		return err, nil
 	}
-	addrB, err := address.Base58ToAddress(toAddress)
-	if err != nil {
-		return err, nil
-	}
-
-	txs, err = token.TransferFrom(auth, common.BytesToAddress(addrA.Bytes()), common.BytesToAddress(addrB.Bytes()), convertAmount)
-	if err != nil {
-		fmt.Println("TransferFrom", err)
-		return err, nil
-	}
-	fmt.Println("hash", txs.Hash())
-	fmt.Println("type", txs.Type())
-	return
+	fmt.Println(common.BytesToHexString(tx.GetTxid()))
 }
