@@ -10,7 +10,6 @@ import (
 	"main.go/config/app_conf"
 	"main.go/extend/trx-sign-go-1.0.3/grpcs"
 	"main.go/extend/trx-sign-go-1.0.3/sign"
-	"math/big"
 )
 
 type TokenTransaction struct {
@@ -54,7 +53,6 @@ func (c *TokenTransaction) TransferFrom(privatekey, from, to string, amount deci
 	}
 	s := common.Bytes2Hex(bz)
 
-	amount = amount.Mul(amount, big.NewInt(1000000))
 	tx, err := c.client.GRPC.TRC20Call(from, c.contractAddress, s, false, 2000000)
 	if err != nil {
 		fmt.Println("TRC20Call", err)
