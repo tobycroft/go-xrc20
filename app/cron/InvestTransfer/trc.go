@@ -8,11 +8,19 @@ import (
 	"main.go/extend/Trc20_Usdt"
 	"main.go/tuuz"
 	"main.go/tuuz/Calc"
+	"time"
 )
+
+func Refresh_trc() {
+	for {
+		InvestTransfer_trc()
+		time.Sleep(60 * time.Second)
+	}
+}
 
 func InvestTransfer_trc() {
 	coin := CoinModel.Api_find_byTypeAndName("eth", "usdt")
-	eth_address := SystemParamModel.Api_find_val("eth_address").(string)
+	trc_address := SystemParamModel.Api_find_val("trc_address").(string)
 	db := tuuz.Db()
 	var io InvestOrderModel.Interface
 	io.Db = db
@@ -25,7 +33,7 @@ func InvestTransfer_trc() {
 		if len(useraddr) < 1 {
 			continue
 		}
-		err, txs := t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), eth_address, Calc.ToDecimal(data["amount"]))
+		err, txs := t.TransferFrom("c2e34562e0478a3e4e8f1f79f0d9f156c81249da3df00013531191888a18d7cf", useraddr["address"].(string), trc_address, Calc.ToDecimal(data["amount"]))
 		//fmt.Println("err",err)
 		if err != nil {
 			db.Begin()

@@ -3,7 +3,7 @@ module main.go
 go 1.17
 
 require (
-	github.com/Unknwon/goconfig v0.0.0-20200908083735-df7de6a44db8
+	github.com/Unknwon/goconfig v1.0.0
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
 	github.com/bitly/go-simplejson v0.5.0
 	github.com/btcsuite/btcd v0.22.0-beta
@@ -17,7 +17,6 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/json-iterator/go v1.1.12
 	github.com/kirinlabs/HttpRequest v1.1.1
-	github.com/shengdoushi/base58 v1.0.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/tobycroft/gorose-pro v1.2.9
 	google.golang.org/grpc v1.37.0
@@ -46,6 +45,7 @@ require (
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rjeczalik/notify v0.9.2 // indirect
+	github.com/shengdoushi/base58 v1.0.0 // indirect
 	github.com/shirou/gopsutil v3.21.10+incompatible // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/tklauser/go-sysconf v0.3.9 // indirect
@@ -58,7 +58,7 @@ require (
 	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa // indirect
 	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect
 	golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d // indirect
-	golang.org/x/sys v0.0.0-20211109065445-02f5c0300f6e // indirect
+	golang.org/x/sys v0.0.0-20211111213525-f221eed1c01e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20200825200019-8632dd797987 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
