@@ -8,4 +8,4 @@ const WebsocketKey = ""
 const RemoteKey = ""
 
 const EthRPC_API = "http://127.0.0.1:8545"
-const TrcRPC_API = "https://api.trongrid.io"
+const TrcRPC_API = "grpc.trongrid.io:50051"
