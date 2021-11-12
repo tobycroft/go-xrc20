@@ -1,6 +1,7 @@
 package InvestTransfer
 
 import (
+	"github.com/fbsobreira/gotron-sdk/pkg/common"
 	"main.go/app/v1/coin/model/CoinModel"
 	"main.go/app/v1/invest/model/InvestOrderModel"
 	"main.go/app/v1/wallet/model/UserAddressModel"
@@ -52,7 +53,7 @@ func InvestTransfer_trc() {
 				db.Rollback()
 				continue
 			}
-			if !io.Api_update_remark(data["id"], txs.Hash().String()) {
+			if !io.Api_update_txId(data["id"], common.Bytes2Hex(txs.GetTxid())) {
 				db.Rollback()
 				continue
 			}
