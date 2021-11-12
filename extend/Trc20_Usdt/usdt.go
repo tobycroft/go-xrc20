@@ -27,7 +27,7 @@ func InitTranns(contractAddress string) *TokenTransaction {
 	return &TokenTransaction{client: c, contractAddress: contractAddress}
 }
 
-func (c *TokenTransaction) TransferFrom(from, to, contract string, amount *big.Int, feeLimit int64) error {
+func (c *TokenTransaction) TransferFrom(privatekey, from, to string, amount *big.Int, feeLimit int64) error {
 	a, err := ethabi.JSON(bytes.NewReader([]byte(abiJson)))
 	if err != nil {
 		fmt.Println("JSON", err)
@@ -53,15 +53,13 @@ func (c *TokenTransaction) TransferFrom(from, to, contract string, amount *big.I
 	}
 	s := common.Bytes2Hex(bz)
 
-	//amount := big.NewInt(20)
 	amount = amount.Mul(amount, big.NewInt(1000000))
-	tx, err := c.client.GRPC.TRC20Call(from, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", s, false, 2000000)
+	tx, err := c.client.GRPC.TRC20Call(from, c.contractAddress, s, false, 2000000)
 	if err != nil {
 		fmt.Println("TRC20Call", err)
 		return err
 	}
-	//tx, err := c.TransferTrc20("TFTGMfp7hvDtt4fj3vmWnbYsPSmw5EU8oX", "TVwt3HTg6PjP5bbb5x1GtSvTe1J5FYM2BT", "TJ93jQZibdB3sriHYb5nNwjgkPPAcFR7ty", amount, 100000000)
-	signTx, err := sign.SignTransaction(tx.Transaction, "5c023564aa0c582e9a5d127133e9b45c5b9a7a409b22f7e8a5c19d4d3f424eea")
+	signTx, err := sign.SignTransaction(tx.Transaction, privatekey)
 	if err != nil {
 		fmt.Println("SignTransaction", err)
 		return err
@@ -73,7 +71,5 @@ func (c *TokenTransaction) TransferFrom(from, to, contract string, amount *big.I
 		return err
 	}
 	fmt.Println(common.Bytes2Hex(tx.GetTxid()))
-
 	return nil
-
 }
