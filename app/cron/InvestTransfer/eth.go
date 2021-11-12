@@ -52,7 +52,7 @@ func InvestTransfer_eth() {
 				db.Rollback()
 				continue
 			}
-			if !io.Api_update_remark(data["id"], txs.Hash().String()) {
+			if !io.Api_update_txId(data["id"], txs.Hash().String()) {
 				db.Rollback()
 				continue
 			}
