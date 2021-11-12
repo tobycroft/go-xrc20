@@ -9,6 +9,7 @@ import (
 func main() {
 
 	go InvestTransfer.Refresh_eth()
+	go InvestTransfer.Refresh_trc()
 
 	mainroute := gin.Default()
 	route.OnRoute(mainroute)
